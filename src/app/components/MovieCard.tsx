@@ -1,4 +1,4 @@
-import { Ratings } from "../movie/[movieId]/page";
+import Ratings from "./Ratings";
 
 interface Movie {
     title: string;

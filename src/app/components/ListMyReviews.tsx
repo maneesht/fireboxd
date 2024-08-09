@@ -11,7 +11,7 @@ export async function ListMyReviews({ token }: ListMyReviewsProps) {
   return (
     <div>
       {movies.data.ratings.map((rating) => (
-        <MovieCard movie={{...rating.movie, rating: rating.rating}} />
+        <MovieCard key={rating.movie.id} movie={{...rating.movie, rating: rating.rating, movieId: rating.movie.id}} />
       ))}
     </div>
   );

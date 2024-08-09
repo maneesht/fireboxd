@@ -34,7 +34,7 @@ const installEvent = () => {
   };
   installEvent();
   
-  const getOriginFromUrl = (url) => {
+  const getOriginFromUrl = (url: string) => {
     // https://stackoverflow.com/questions/1420881/how-to-extract-base-url-from-a-string-in-javascript
     const pathArray = url.split('/');
     const protocol = pathArray[0];
@@ -43,10 +43,10 @@ const installEvent = () => {
   };
   
   // Get underlying body if available. Works for text and json bodies.
-  const getBodyContent = (req) => {
+  const getBodyContent = (req: Request) => {
     return Promise.resolve().then(() => {
       if (req.method !== 'GET') {
-        if (req.headers.get('Content-Type').indexOf('json') !== -1) {
+        if (req.headers.get('Content-Type')?.indexOf('json') !== -1) {
           return req.json()
             .then((json) => {
               return JSON.stringify(json);
@@ -64,17 +64,19 @@ const installEvent = () => {
     /** @type {FetchEvent} */
     const evt = event;
   
-    const requestProcessor = (idToken) => {
+    const requestProcessor = (idToken: string) => {
+      // @ts-ignore
       let req = evt.request;
       let processRequestPromise = Promise.resolve();
       // For same origin https requests, append idToken to header.
+      // @ts-ignore
       if (self.location.origin == getOriginFromUrl(evt.request.url) &&
           (self.location.protocol == 'https:' ||
            self.location.hostname == 'localhost') &&
           idToken) {
         // Clone headers as request headers are immutable.
         const headers = new Headers();
-        req.headers.forEach((val, key) => {
+        req.headers.forEach((val: string, key: string) => {
           headers.append(key, val);
         });
         // Add ID token to header.
@@ -89,6 +91,7 @@ const installEvent = () => {
               cache: req.cache,
               redirect: req.redirect,
               referrer: req.referrer,
+              // @ts-ignore
               body,
               // bodyUsed: req.bodyUsed,
               // context: req.context
@@ -106,6 +109,7 @@ const installEvent = () => {
     // Fetch the resource after checking for the ID token.
     // This can also be integrated with existing logic to serve cached files
     // in offline mode.
+    // @ts-ignore
     evt.respondWith(getIdTokenPromise().then(requestProcessor, requestProcessor));
   });
   console.log('registering');
