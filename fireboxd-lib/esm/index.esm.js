@@ -42,6 +42,18 @@ export function createRatingRef(dcOrVars, vars) {
 export function createRating(dcOrVars, vars) {
   return executeMutation(createRatingRef(dcOrVars, vars));
 }
+export function updateImageRef(dc) {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  if('_useGeneratedSdk' in dcInstance) {
+    dcInstance._useGeneratedSdk();
+  } else {
+    console.error('Please update to the latest version of the Data Connect SDK by running `npm install firebase@dataconnect-preview`.');
+  }
+  return mutationRef(dcInstance, 'updateImage');
+}
+export function updateImage(dc) {
+  return executeMutation(updateImageRef(dc));
+}
 export function listMyReviewsRef(dc) {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   if('_useGeneratedSdk' in dcInstance) {

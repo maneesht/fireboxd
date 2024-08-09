@@ -99,3 +99,8 @@ mutation createRating($id: UUID!, $rating: Int!) @auth(level: USER) {
         userId_expr: "auth.uid"
     })
 }
+mutation updateImage @auth(level: PUBLIC) {
+    movie_update(id: "a47aa2a406e94128b6f6009602db5a56", data: {
+        imageUrl: "https://m.media-amazon.com/images/I/71715eBi1sL._AC_UF894,1000_QL80_.jpg"
+    })
+}

@@ -1,6 +1,7 @@
 import MovieCard from "./MovieCard";
 import { getDCInstance } from "../util";
 import { listAllMovies } from "@fireboxd/generated";
+import { updateImage } from "../../../fireboxd-lib";
 
 interface ListAllMoviesProps {
   token: string;

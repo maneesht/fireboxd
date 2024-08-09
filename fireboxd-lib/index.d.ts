@@ -76,6 +76,10 @@ export interface Rating_Key {
   __typename?: 'Rating_Key';
 }
 
+export interface UpdateImageResponse {
+  movie_update?: Movie_Key | null;
+}
+
 export interface UpdateRatingResponse {
   rating_update?: Rating_Key | null;
 }
@@ -117,6 +121,14 @@ export function createRatingRef(dc: DataConnect, vars: CreateRatingVariables): M
 
 export function createRating(vars: CreateRatingVariables): MutationPromise<CreateRatingResponse, CreateRatingVariables>;
 export function createRating(dc: DataConnect, vars: CreateRatingVariables): MutationPromise<CreateRatingResponse,CreateRatingVariables>;
+
+
+/* Allow users to create refs without passing in DataConnect */
+export function updateImageRef(): MutationRef<UpdateImageResponse, undefined>;/* Allow users to pass in custom DataConnect instances */
+export function updateImageRef(dc: DataConnect): MutationRef<UpdateImageResponse,undefined>;
+
+export function updateImage(): MutationPromise<UpdateImageResponse, undefined>;
+export function updateImage(dc: DataConnect): MutationPromise<UpdateImageResponse,undefined>;
 
 
 /* Allow users to create refs without passing in DataConnect */
