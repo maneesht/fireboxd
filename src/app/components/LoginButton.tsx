@@ -17,6 +17,7 @@ export default function LoginButton() {
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         router.push('/');
+        console.log('redirecting');
       })
       .catch((error) => {
         console.log(error);

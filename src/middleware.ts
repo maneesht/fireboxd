@@ -23,7 +23,6 @@ async function checkAuth(idToken?: string | null) {
   await serverAuth.authStateReady();
   if (serverAuth.currentUser === null) {
     // authIdToken was missing or invalid.
-    console.log("nope!");
     return false;
   }
   console.log("true!");
@@ -31,19 +30,16 @@ async function checkAuth(idToken?: string | null) {
 }
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const authRes = (await checkAuth(request.headers.get("authorization")));
-  console.log(!(await checkAuth(request.headers.get("authorization"))) &&
-    request.nextUrl.pathname !== "/login");
   if (
     !(await checkAuth(request.headers.get("authorization"))) &&
     request.nextUrl.pathname !== "/login"
   ) {
-    console.log('redirectin');
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL('/login', request.url))
+
   }
   return NextResponse.next();
 }
 export const config = {
-  matcher: [  '/((?!_next|api/auth).*)(.+)']
+  matcher: [  '/((?!_next|service-worker|api/auth).*)(.+)' ]
 
 };
