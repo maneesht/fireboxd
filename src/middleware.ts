@@ -1,20 +1,49 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
- 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-    if(!request.headers.get('authorization')) {
-        return NextResponse.rewrite(new URL('/login', request.url));
-    }
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { firebaseConfig } from "./app/firebaseConfig";
+import { initializeServerApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
-    const requestHeaders = new Headers(request.headers);
-    // add field to request headers
-    requestHeaders.set("X-My-Custom-Header", "CustomHeaderValue");
-    return NextResponse.next({
-        request: {
-            headers: requestHeaders,
-        },
-    });
+async function checkAuth(idToken?: string | null) {
+  if (!idToken) {
+    console.log('no id token');
+    return false;
+  }
+  const firebaseServerAppSettings = {
+    authIdToken: idToken, // We'll explain how to get the
+    // idToken in the service worker
+    // example below.
+  };
 
+  const serverApp = initializeServerApp(
+    firebaseConfig,
+    firebaseServerAppSettings
+  );
+  const serverAuth = getAuth(serverApp);
+  await serverAuth.authStateReady();
+  if (serverAuth.currentUser === null) {
+    // authIdToken was missing or invalid.
+    console.log("nope!");
+    return false;
+  }
+  console.log("true!");
+  return true;
 }
- 
+// This function can be marked `async` if using `await` inside
+export async function middleware(request: NextRequest) {
+  const authRes = (await checkAuth(request.headers.get("authorization")));
+  console.log(!(await checkAuth(request.headers.get("authorization"))) &&
+    request.nextUrl.pathname !== "/login");
+  if (
+    !(await checkAuth(request.headers.get("authorization"))) &&
+    request.nextUrl.pathname !== "/login"
+  ) {
+    console.log('redirectin');
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+  return NextResponse.next();
+}
+export const config = {
+  matcher: [  '/((?!_next|api/auth).*)(.+)']
+
+};
