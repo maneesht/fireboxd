@@ -18,14 +18,11 @@ const getIdTokenPromise = () => {
       unsubscribe();
       if (user) {
         getIdToken(user).then((idToken) => {
-          console.log('logged in!');
           resolve(idToken);
         }, (error) => {
-          console.error(error);
           resolve(null);
         });
       } else {
-        console.log('no logged in user');
         resolve(null);
       }
     });
@@ -120,5 +117,3 @@ const installEvent = () => {
   self.addEventListener('activate', () =>{
     console.log('active!');
   });
-
-  console.log('registering');
