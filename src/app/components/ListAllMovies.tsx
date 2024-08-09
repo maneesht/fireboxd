@@ -11,7 +11,7 @@ export async function ListAllMovies({ token }: ListAllMoviesProps) {
   return (
     <div className="flex flex-wrap space-between -mx-2">
       {movies.data.movies.map((movie) => (
-        <MovieCard key={movie.id} movie={{...movie, rating: movie.ratings_on_movie[0]?.rating, movieId: movie.id}} />
+        <MovieCard key={movie.id} movie={{...movie, rating: movie.ratings_on_movie[0]?.rating, movieId: movie.id, ratingId: movie.ratings_on_movie[0]?.id}} />
       ))}
     </div>
   );

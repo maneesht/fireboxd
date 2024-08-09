@@ -50,7 +50,8 @@ export interface ListAllMoviesResponse {
     imageUrl: string;
     ratings_on_movie: ({
       rating: number;
-    })[];
+      id: UUIDString;
+    } & Rating_Key)[];
   } & Movie_Key)[];
 }
 

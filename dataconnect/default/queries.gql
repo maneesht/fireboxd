@@ -78,7 +78,8 @@ query ListAllMovies @auth(level: USER) {
         ratings_on_movie(where: { userId: {
             eq_expr: "auth.uid"
         }}) {
-            rating
+            rating,
+            id
         }
     }
 }

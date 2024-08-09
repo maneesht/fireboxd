@@ -16,7 +16,9 @@ export default function LoginButton() {
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
         // ...
-        location.href = '/'; // used instead of router.push as router.push doesn't get triggered by the service worker as a fetch
+        document.startViewTransition(() => {
+          location.href = '/';
+        });
       })
       .catch((error) => {
         console.log(error);

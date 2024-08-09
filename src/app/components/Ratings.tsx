@@ -1,6 +1,7 @@
 'use client';
 import { useState } from "react";
 import { updateRating, createRating } from "@fireboxd/generated";
+import { Herr_Von_Muellerhoff } from "next/font/google";
 
 interface RatingsProps {
     rating: number;
@@ -9,17 +10,25 @@ interface RatingsProps {
 }
 export default function Ratings({ rating, id, movieId }: RatingsProps) {
     const [curRating, setCurRating] = useState(rating);
+    const [displayRating, setDisplayRating] = useState(rating);
     async function onUpdate(r: number) {
         setCurRating(r);
+        setDisplayRating(r);
         if (id) await updateRating({ id, rating: r });
         else await createRating({ rating: r, id: movieId });
     }
+    function hoverOn(index: number) {
+        setDisplayRating(index);
+    }
+    function hoverOff(index: number) {
+        setDisplayRating(curRating);
+    }
     return <div className="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
         <div className="flex items-center gap-2 font-bold text-blue-gray-500">
-            {curRating}
+            {displayRating}
             <div className="inline-flex items-center">
-                {Array(Math.min(curRating, 5)).fill(0).map((_, index) => {
-                    return <span key={index} onClick={() => onUpdate(index + 1)}>
+                {Array(displayRating).fill(0).map((_, index) => {
+                    return <span key={index} onMouseEnter={() => hoverOn(index + 1)} onMouseLeave={() => hoverOff(index + 1)} onClick={() => onUpdate(index + 1)}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                             className="w-6 h-6 text-yellow-700 cursor-pointer">
                             <path fillRule="evenodd"
@@ -28,8 +37,8 @@ export default function Ratings({ rating, id, movieId }: RatingsProps) {
                         </svg>
                     </span>;
                 })}
-                {Array(5 - curRating).fill(0).map((_, index) => {
-                    return <span key={index} onClick={() => onUpdate(rating + index + 1)}>
+                {Array(5 - displayRating).fill(0).map((_, index) => {
+                    return <span key={index} onMouseEnter={() => hoverOn(displayRating + index + 1)} onMouseLeave={() => hoverOff(displayRating + index + 1)} onClick={() => onUpdate(displayRating + index + 1)}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
                             className="w-6 h-6 cursor-pointer text-blue-gray-500">
                             <path strokeLinecap="round" strokeLinejoin="round"

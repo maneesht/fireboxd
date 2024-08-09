@@ -13,6 +13,7 @@ interface MovieCardProps {
 }
 export default function MovieCard({ movie }: MovieCardProps) {
 const { title, imageUrl, rating, ratingId, movieId } = movie;
+console.log('movieid: ' + title + 'rating: ' + ratingId);
     let color = "red";
     if(rating) {
       if(rating >= 4){
