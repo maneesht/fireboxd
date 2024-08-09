@@ -6,11 +6,9 @@ import { getAuth } from "firebase/auth";
 
 async function checkAuth(idTokenWithBearer?: string | null) {
   if (!idTokenWithBearer) {
-    console.log('no token');
     return false;
   }
   const idToken = idTokenWithBearer?.split('Bearer ')[1];
-  console.log(idToken);
   const firebaseServerAppSettings = {
     authIdToken: idToken, // We'll explain how to get the
     // idToken in the service worker
