@@ -4,11 +4,13 @@ import { firebaseConfig } from "./app/firebaseConfig";
 import { initializeServerApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-async function checkAuth(idToken?: string | null) {
-  if (!idToken) {
-    console.log('no id token');
+async function checkAuth(idTokenWithBearer?: string | null) {
+  if (!idTokenWithBearer) {
+    console.log('no token');
     return false;
   }
+  const idToken = idTokenWithBearer?.split('Bearer ')[1];
+  console.log(idToken);
   const firebaseServerAppSettings = {
     authIdToken: idToken, // We'll explain how to get the
     // idToken in the service worker
@@ -23,6 +25,7 @@ async function checkAuth(idToken?: string | null) {
   await serverAuth.authStateReady();
   if (serverAuth.currentUser === null) {
     // authIdToken was missing or invalid.
+    console.log('invalid token');
     return false;
   }
   console.log("true!");
@@ -30,16 +33,18 @@ async function checkAuth(idToken?: string | null) {
 }
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
+  if(request.nextUrl.pathname === "/login" ||  request.nextUrl.pathname === '/service-worker.js' || request.nextUrl.pathname === '/favicon.ico') {
+    console.log(`For path ${request.nextUrl.pathname} we are not redirecting`);
+    return NextResponse.next();
+  }
   if (
-    !(await checkAuth(request.headers.get("authorization"))) &&
-    request.nextUrl.pathname !== "/login"
+    !(await checkAuth(request.headers.get("authorization")))
   ) {
+    console.log(`For path ${request.nextUrl.pathname} we are redirecting`);
     return NextResponse.redirect(new URL('/login', request.url))
 
   }
-  return NextResponse.next();
 }
-export const config = {
-  matcher: [  '/((?!_next|service-worker|api/auth).*)(.+)' ]
-
-};
+    export const config = {
+        matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+      }
