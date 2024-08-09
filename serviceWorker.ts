@@ -62,7 +62,6 @@ const installEvent = () => {
   };
   
   self.addEventListener('fetch', (event) => {
-    console.log('fetch!');
     /** @type {FetchEvent} */
     const evt = event;
   
