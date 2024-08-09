@@ -3,8 +3,6 @@
 import { getAuth, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { firebaseApp } from "../firebaseConfig";
-import { connectorConfig, listAllMovies } from "@fireboxd/generated";
-import { connectDataConnectEmulator, getDataConnect } from "firebase/data-connect";
 
 export function WelcomeBanner() {
   const auth = getAuth(firebaseApp);
@@ -12,11 +10,6 @@ export function WelcomeBanner() {
 
   useEffect(() => {
     auth.onAuthStateChanged(user => setUser(user));
-
-  const dc = getDataConnect(connectorConfig);
-  if(!dc.isEmulator)
-  connectDataConnectEmulator(dc, 'localhost', 9399);
-  const movies = listAllMovies(dc);
   }, []);
   return (
     <div>
