@@ -1,0 +1,101 @@
+# # Example mutations for a simple email app
+
+# # Logged in user can create their own account.
+# mutation CreateUser($name: String!, $address: String!) @auth(level: USER) {
+#   # <type>_insert lets you create a new row in your table.
+#   user_insert(data: {
+#     # Server values let your service populate sensitive data.
+#     # Users can only setup their own account.
+#     uid_expr: "auth.uid",
+#     name: $name,
+#     address: $address
+#   })
+# }
+
+# # Logged in user can send emails from their account.
+# mutation CreateEmail($content: String, $subject: String) @auth(level: USER) {
+#   email_insert(data: {
+#     # The request variable name doesn't have to match the field name.
+#     text: $content,
+#     subject: $subject,
+#     # Server values let your service populate sensitive data.
+#     # Users are only allowed to create emails sent from their account.
+#     fromUid_expr: "auth.uid",
+#     # Server values let your service populate data for you
+#     # Here, we use sent_date: { today: true } to set 'sent' to today's date.
+#     sent_date: { today: true }
+#   })
+# }
+
+# mutation CreateRecipient($emailId: UUID) @auth(level: USER) {
+#   recipient_insert(data: {
+#     emailId: $emailId,
+#     userUid_expr: "auth.uid"
+#   })
+# }
+# [
+#   {"title": "The Shawshank Redemption", "genre": "Drama", "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.amazon.com%2FShawshank-Redemption-Movie-Poster-Version%2Fdp%2FB07D8GWLFM&psig=AOvVaw1D7UjUKlu2ihuUsU1AlJ78&ust=1723258738007000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJDMn5n15ocDFQAAAAAdAAAAABAE"},
+#   {"title": "The Godfather", "genre": "Crime", "imageUrl": "https://m.media-amazon.com/images/I/510L5ypQBdL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "The Dark Knight", "genre": "Action", "imageUrl": "https://m.media-amazon.com/images/I/818hyvdVfvL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "12 Angry Men", "genre": "Drama", "imageUrl": "https://m.media-amazon.com/images/I/51BXcmhQxjL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Schindler's List", "genre": "Drama", "imageUrl": "https://m.media-amazon.com/images/I/71EtVRky4eL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Pulp Fiction", "genre": "Crime", "imageUrl": "https://m.media-amazon.com/images/I/71wPS3A1EYL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "The Lord of the Rings: The Return of the King", "genre": "Adventure", "imageUrl": "https://m.media-amazon.com/images/I/71Xle4-8u+L._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "The Good, the Bad and the Ugly", "genre": "Western", "imageUrl": "https://m.media-amazon.com/images/I/51cwIVtrVHL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Fight Club", "genre": "Drama", "imageUrl": "https://i.etsystatic.com/18242346/r/il/c9908e/2412674268/il_570xN.2412674268_1sgm.jpg"},
+#   {"title": "Star Wars: Episode IV - A New Hope", "genre": "Sci-Fi", "imageUrl": "https://m.media-amazon.com/images/I/81xucOreGZL.jpg"},
+#   {"title": "Inception", "genre": "Sci-Fi", "imageUrl": "https://m.media-amazon.com/images/I/71uKM+LdgFL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Forrest Gump", "genre": "Drama", "imageUrl": "https://m.media-amazon.com/images/I/41Al9falobL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "The Lord of the Rings: The Fellowship of the Ring", "genre": "Adventure", "imageUrl": "https://m.media-amazon.com/images/I/81EBp0vOZZL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "The Lord of the Rings: The Two Towers", "genre": "Adventure", "imageUrl": "https://www.originalfilmart.com/cdn/shop/files/lord_of_the_rings_the_two_towers_2002_original_film_art_5dd21feb-10ab-41a1-84a1-4c4b082e9626_5000x.webp?v=1705516902"},
+#   {"title": "Goodfellas", "genre": "Crime", "imageUrl": "https://www.movieposters.com/cdn/shop/products/ef4b93ef8f7157de3f97ae1ff5d21b56_0526bb98-1f4a-4da5-b928-b0025f5e6371_480x.progressive.jpg?v=1573585487"},
+#   {"title": "The Silence of the Lambs", "genre": "Thriller", "imageUrl": "https://m.media-amazon.com/images/I/81SVDO6WcrL.jpg"},
+#   {"title": "Seven", "genre": "Thriller", "imageUrl": "https://i.ebayimg.com/images/g/57cAAOSwT5tWGaHl/s-l400.jpg"},
+#   {"title": "Life is Beautiful", "genre": "Comedy", "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_BRYWy8T0_IcNiwsW2_t5Cg-DW1qV4rEG5A&s"},
+#   {"title": "One Flew Over the Cuckoo's Nest", "genre": "Drama", "imageUrl": "https://m.media-amazon.com/images/I/61c5Aw3wdDL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Interstellar", "genre": "Sci-Fi", "imageUrl": "https://m.media-amazon.com/images/I/81kz06oSUeL.jpg"},
+#   {"title": "The Empire Strikes Back", "genre": "Sci-Fi", "imageUrl": "https://m.media-amazon.com/images/I/61mVAe9vAtL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Jurassic Park", "genre": "Sci-Fi", "imageUrl": "https://m.media-amazon.com/images/I/61fExTEY7dL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Saving Private Ryan", "genre": "War", "imageUrl": "https://m.media-amazon.com/images/I/61OK2PdNjKL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Terminator 2: Judgment Day", "genre": "Sci-Fi", "imageUrl": "https://i5.walmartimages.com/asr/86de6780-5e39-421e-9b62-496352b9b761.2f39210e950d1c9f2094ade10f7f0156.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF"},
+#   {"title": "The Green Mile", "genre": "Drama", "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdxyD1Bacu4IY33HiZWKfpLF90nxbN9Z0GTQ&s"},
+#   {"title": "The Lion King", "genre": "Animation", "imageUrl": "https://i.ebayimg.com/images/g/IogAAOSwd49i-5n8/s-l1200.jpg"},
+#   {"title": "Gladiator", "genre": "Action", "imageUrl": "https://m.media-amazon.com/images/I/71sj8Yt20qL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Back to the Future", "genre": "Sci-Fi", "imageUrl": "https://m.media-amazon.com/images/I/71MEh-s3p7L.jpg"},
+#   {"title": "Titanic", "genre": "Romance", "imageUrl": "https://m.media-amazon.com/images/I/51WoQmnoNyL._AC_.jpg"},
+#   {"title": "The Departed", "genre": "Crime", "imageUrl": "https://m.media-amazon.com/images/I/517KYXGeJmL._AC_.jpg"},
+#   {"title": "The Pianist", "genre": "Drama", "imageUrl": "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p30193_p_v13_aa.jpg"},
+#   {"title": "City of God", "genre": "Crime", "imageUrl": "https://i.icanvas.com/CKG716?d=2&sh=v&p=1&bg=g"},
+#   {"title": "The Usual Suspects", "genre": "Thriller", "imageUrl": "https://m.media-amazon.com/images/I/51ANy73yJuL._AC_.jpg"},
+#   {"title": "The Sixth Sense", "genre": "Thriller", "imageUrl": "https://i.ebayimg.com/images/g/~rIAAOSwMJJg5rJL/s-l1600.jpg"},
+#   {"title": "Braveheart", "genre": "Action", "imageUrl": "https://m.media-amazon.com/images/I/719f8nWVRnL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Léon: The Professional", "genre": "Action", "imageUrl": "https://m.media-amazon.com/images/I/61P-HNp5QsL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Alien", "genre": "Sci-Fi", "imageUrl": "https://images.photowall.com/products/59754/alien.jpg?h=699&q=85"},
+#   {"title": "Psycho", "genre": "Thriller", "imageUrl": "https://www.originalfilmart.com/cdn/shop/products/psycho_1960_linen_original_film_art_f2_1200x.jpg?v=1593652743"},
+#   {"title": "Casablanca", "genre": "Romance", "imageUrl": "https://i.etsystatic.com/12412342/r/il/479cd4/920791184/il_570xN.920791184_d01g.jpg"},
+#   {"title": "Citizen Kane", "genre": "Drama", "imageUrl": "https://m.media-amazon.com/images/I/51msLit3GqL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "The Godfather Part II", "genre": "Crime", "imageUrl": "https://i.ebayimg.com/00/s/MTYwMFgxMDY2/z/WfUAAOSw44Zj8lry/$_57.JPG?set_id=880000500F"},
+#   {"title": "Apocalypse Now", "genre": "War", "imageUrl": "https://m.media-amazon.com/images/I/81WVJWK+vCL._AC_UF894,1000_QL80_.jpg"},
+#   {"title": "Taxi Driver", "genre": "Drama", "imageUrl": "https://i.ebayimg.com/images/g/4D0AAOSwj3VkSGCx/s-l1600.jpg"},
+#   {"title": "The Shining", "genre": "Horror", "imageUrl": "https://www.originalfilmart.com/cdn/shop/files/the_shining_1980_original_film_art_5000x.webp?v=1685732868"}
+# ]
+
+mutation addMovies($title: String!, $genre: String!, $imageUrl: String!) @auth(level: PUBLIC) {
+	movie_insert(data: {
+        title: $title,
+        genre: $genre,
+        imageUrl: $imageUrl
+    })
+}
+mutation updateRating($id: UUID!, $rating: Int!) @auth(level: USER) {
+    rating_update(id: $id, data: {
+        rating: $rating
+    })
+}
+mutation createRating($id: UUID!, $rating: Int!) @auth(level: USER) {
+    rating_insert(data: {
+        movieId: $id,
+        rating: $rating,
+        userId_expr: "auth.uid"
+    })
+}

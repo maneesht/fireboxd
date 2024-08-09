@@ -1,0 +1,11 @@
+specVersion: "v1alpha"
+serviceId: "fireboxd"
+location: "us-west1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fireboxd"
+      cloudSql:
+        instanceId: "fdc-fireboxd"
+connectorDirs: ["./default"]

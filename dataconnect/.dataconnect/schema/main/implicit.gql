@@ -1,0 +1,10 @@
+extend type Movie {
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Movie", purpose: IMPLICIT_KEY_FIELD)
+}
+extend type Rating {
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Rating", purpose: IMPLICIT_KEY_FIELD)
+  movieId: UUID! @fdc_generated(from: "Rating.movie", purpose: IMPLICIT_REF_FIELD)
+}
+extend type User {
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "User", purpose: IMPLICIT_KEY_FIELD)
+}

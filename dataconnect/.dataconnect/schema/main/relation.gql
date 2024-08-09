@@ -1,0 +1,6 @@
+extend type Movie {
+  """
+  ✨ List Rating entries in a one-to-many relationship with this object (i.e. where `Rating.movie` equals this object).
+  """
+  ratings_on_movie(where: Rating_Filter, orderBy: [Rating_Order!], limit: Int = 100): [Rating!]! @fdc_generated(from: "Rating.movie", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+}

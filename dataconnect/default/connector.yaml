@@ -1,0 +1,13 @@
+connectorId: "fireboxd"
+authMode: "PUBLIC" 
+## ## Here's an example of how to add generated SDKs.
+## ## You'll need to replace the outputDirs with ones pointing to where you want the generated code in your app.
+generate:
+  javascriptSdk:
+    outputDir: ../../fireboxd-lib
+    package: "@fireboxd/generated"
+    packageJsonDir: ../../
+#   swiftSdk:
+#     outputDir: <Path where you want the generated SDK to be written to, relative to this file>
+#   kotlinSdk:
+#     outputDir: <Path where you want the generated SDK to be written to, relative to this file>

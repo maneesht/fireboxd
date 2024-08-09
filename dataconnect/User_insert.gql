@@ -1,0 +1,9 @@
+# This is a file for you to write an un-named mutation. 
+# Only one un-named mutation is allowed per file.
+mutation @auth(level: PUBLIC) {
+  rating_insert(data: {
+	movieId: "0dab68d8dc3f4068ac15f48c036eb2ad",
+	rating: 5,
+	userId: "h67vHd5VkfTanJJK3D7JC6A6Es22"
+  })
+}

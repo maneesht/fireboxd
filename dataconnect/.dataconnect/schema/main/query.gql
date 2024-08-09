@@ -1,0 +1,26 @@
+extend type Query {
+  """
+  Look up a single Movie based on `id` or `key` and return selected fields (or `null` if not found).
+  """
+  movie(id: UUID, key: Movie_Key): Movie @fdc_generated(from: "Movie", purpose: QUERY_SINGLE)
+  """
+  Look up a single Rating based on `id` or `key` and return selected fields (or `null` if not found).
+  """
+  rating(id: UUID, key: Rating_Key): Rating @fdc_generated(from: "Rating", purpose: QUERY_SINGLE)
+  """
+  Look up a single User based on `id` or `key` and return selected fields (or `null` if not found).
+  """
+  user(id: UUID, key: User_Key): User @fdc_generated(from: "User", purpose: QUERY_SINGLE)
+  """
+  List Movie entries in the table, optionally filtered by `where` conditions.
+  """
+  movies(where: Movie_Filter, orderBy: [Movie_Order!], limit: Int = 100): [Movie!]! @fdc_generated(from: "Movie", purpose: QUERY_MULTIPLE)
+  """
+  List Rating entries in the table, optionally filtered by `where` conditions.
+  """
+  ratings(where: Rating_Filter, orderBy: [Rating_Order!], limit: Int = 100): [Rating!]! @fdc_generated(from: "Rating", purpose: QUERY_MULTIPLE)
+  """
+  List User entries in the table, optionally filtered by `where` conditions.
+  """
+  users(where: User_Filter, orderBy: [User_Order!], limit: Int = 100): [User!]! @fdc_generated(from: "User", purpose: QUERY_MULTIPLE)
+}
