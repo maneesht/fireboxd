@@ -7435,11 +7435,14 @@
         unsubscribe();
         if (user) {
           getIdToken(user).then((idToken) => {
+            console.log("logged in!");
             resolve(idToken);
           }, (error) => {
+            console.error(error);
             resolve(null);
           });
         } else {
+          console.log("no logged in user");
           resolve(null);
         }
       });
@@ -7460,7 +7463,7 @@
   var getBodyContent = (req) => {
     return Promise.resolve().then(() => {
       if (req.method !== "GET") {
-        if (req.headers.get("Content-Type").indexOf("json") !== -1) {
+        if (req.headers.get("Content-Type")?.indexOf("json") !== -1) {
           return req.json().then((json) => {
             return JSON.stringify(json);
           });
@@ -7472,6 +7475,7 @@
     });
   };
   self.addEventListener("fetch", (event) => {
+    console.log("fetch!");
     const evt = event;
     const requestProcessor = (idToken) => {
       let req = evt.request;
@@ -7492,6 +7496,7 @@
               cache: req.cache,
               redirect: req.redirect,
               referrer: req.referrer,
+              // @ts-ignore
               body
               // bodyUsed: req.bodyUsed,
               // context: req.context
@@ -7505,6 +7510,9 @@
       });
     };
     evt.respondWith(getIdTokenPromise().then(requestProcessor, requestProcessor));
+  });
+  self.addEventListener("activate", () => {
+    console.log("active!");
   });
   console.log("registering");
 })();

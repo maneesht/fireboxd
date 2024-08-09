@@ -11,17 +11,21 @@ initializeApp(firebaseConfig);
  *     available. Otherwise, the promise resolves with null.
  */
 const auth = getAuth();
+
 const getIdTokenPromise = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       unsubscribe();
       if (user) {
         getIdToken(user).then((idToken) => {
+          console.log('logged in!');
           resolve(idToken);
         }, (error) => {
+          console.error(error);
           resolve(null);
         });
       } else {
+        console.log('no logged in user');
         resolve(null);
       }
     });
@@ -61,6 +65,7 @@ const installEvent = () => {
   };
   
   self.addEventListener('fetch', (event) => {
+    console.log('fetch!');
     /** @type {FetchEvent} */
     const evt = event;
   
@@ -112,4 +117,8 @@ const installEvent = () => {
     // @ts-ignore
     evt.respondWith(getIdTokenPromise().then(requestProcessor, requestProcessor));
   });
+  self.addEventListener('activate', () =>{
+    console.log('active!');
+  });
+
   console.log('registering');

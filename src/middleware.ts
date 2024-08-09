@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth";
 
 async function checkAuth(idTokenWithBearer?: string | null) {
   if (!idTokenWithBearer) {
+    console.log('no token');
     return false;
   }
   const idToken = idTokenWithBearer?.split('Bearer ')[1];
